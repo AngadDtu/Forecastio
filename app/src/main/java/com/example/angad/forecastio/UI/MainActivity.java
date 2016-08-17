@@ -1,14 +1,14 @@
-package com.example.angad.forecastio;
+package com.example.angad.forecastio.UI;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.angad.forecastio.R;
 
 import java.io.IOException;
 

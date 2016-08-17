@@ -1,10 +1,12 @@
-package com.example.angad.forecastio;
+package com.example.angad.forecastio.UI;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+
+import com.example.angad.forecastio.R;
 
 public class AlertDialogFragment extends android.app.DialogFragment {
     @Override
