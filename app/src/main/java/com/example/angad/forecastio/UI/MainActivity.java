@@ -9,6 +9,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.angad.forecastio.R;
+import com.example.angad.forecastio.model.CurrentWeather;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -21,7 +25,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG =MainActivity.class.getSimpleName() ;
-
+private CurrentWeather mCurrentWeather;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +51,17 @@ public class MainActivity extends AppCompatActivity {
                     try {
 
                         if (response.isSuccessful()) {
-                            Log.v(TAG, response.body().string());
+                            String JsonData=response.body().string();
+                            Log.v(TAG, JsonData);
+                            mCurrentWeather=getCurrentDetails(JsonData);
                         } else {
                             Log.v(TAG, response.body().string());
                             alertUserAboutError();
                         }
                     } catch (IOException e) {
-                        Log.e(TAG, "NETWORKING ERRROR");
+                        Log.e(TAG, "NETWORKING ERRROR",e);
+                    } catch (JSONException e) {
+                        Log.e(TAG,"NETWORKING ERROR",e);
                     }
                 }
             });
@@ -63,6 +71,21 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d(TAG,"Main UI is working");
 
+    }
+
+    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
+        JSONObject forecast=new JSONObject(jsonData);
+        JSONObject currently=forecast.getJSONObject("currently");
+        CurrentWeather currentWeather=new CurrentWeather();
+        currentWeather.setLocation(forecast.getString("timezone"));
+        currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setTemperature(currently.getDouble("temperature"));
+        currentWeather.setTime(currently.getLong("time"));
+        currentWeather.setHumidity(currently.getDouble("humidity"));
+        currentWeather.setPerciChange(currently.getDouble("precipProbability"));
+        currentWeather.setSummary(currently.getString("summary"));
+
+        return currentWeather;
     }
 
     private boolean isNetworkAvailable() {

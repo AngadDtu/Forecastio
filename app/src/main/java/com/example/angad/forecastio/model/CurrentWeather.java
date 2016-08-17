@@ -1,6 +1,6 @@
 package com.example.angad.forecastio.model;
 
-public class WeatherForeCast  {
+public class CurrentWeather {
     private  String mIcon;
     private  String mLocation;
     private long mTime;
