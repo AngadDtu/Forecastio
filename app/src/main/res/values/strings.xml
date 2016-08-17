@@ -3,4 +3,5 @@
     <string name="alert_title">Oops! Sorry!</string>
     <string name="alertDialog_message">Please try again!</string>
     <string name="ok_button_text">OK</string>
+    <string name="network_error_toast_message">Network is Unavailable</string>
 </resources>
