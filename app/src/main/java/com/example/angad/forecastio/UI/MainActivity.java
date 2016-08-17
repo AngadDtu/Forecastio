@@ -77,13 +77,15 @@ private CurrentWeather mCurrentWeather;
         JSONObject forecast=new JSONObject(jsonData);
         JSONObject currently=forecast.getJSONObject("currently");
         CurrentWeather currentWeather=new CurrentWeather();
-        currentWeather.setLocation(forecast.getString("timezone"));
+        currentWeather.setTimeZone(forecast.getString("timezone"));
         currentWeather.setIcon(currently.getString("icon"));
         currentWeather.setTemperature(currently.getDouble("temperature"));
         currentWeather.setTime(currently.getLong("time"));
         currentWeather.setHumidity(currently.getDouble("humidity"));
         currentWeather.setPerciChange(currently.getDouble("precipProbability"));
         currentWeather.setSummary(currently.getString("summary"));
+        String formattedTime=currentWeather.getFormattedTime();
+        Log.v(TAG,"Time: "+formattedTime);
 
         return currentWeather;
     }

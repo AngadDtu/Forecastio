@@ -1,13 +1,28 @@
 package com.example.angad.forecastio.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class CurrentWeather {
     private  String mIcon;
-    private  String mLocation;
+    private  String mTimeZone;
     private long mTime;
     private double mTemperature;
     private double mHumidity;
     private double mPerciChange;
     private  String mSummary;
+
+
+    public String getFormattedTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+        formatter.setTimeZone(TimeZone.getTimeZone(getTimeZone()));
+        Date dateTime = new Date(getTime() * 1000);
+        String timeString = formatter.format(dateTime);
+
+        return timeString;
+    }
+
 
     public String getIcon() {
         return mIcon;
@@ -17,12 +32,12 @@ public class CurrentWeather {
         mIcon = icon;
     }
 
-    public String getLocation() {
-        return mLocation;
+    public String getTimeZone() {
+        return mTimeZone;
     }
 
-    public void setLocation(String location) {
-        mLocation = location;
+    public void setTimeZone(String location) {
+        mTimeZone = location;
     }
 
     public long getTime() {
