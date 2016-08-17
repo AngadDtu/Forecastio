@@ -1,5 +1,6 @@
 package com.example.angad.forecastio;
 
+import android.app.AlertDialog;
 import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +42,11 @@ public class MainActivity extends AppCompatActivity {
                 try {
 
                     if(response.isSuccessful()){
-                        Log.i(TAG,response.body().string());
+                        Log.v(TAG,response.body().string());
+                    }
+                    else{
+                        Log.v(TAG,response.body().string());
+                        alertUserAboutError();
                     }
                 } catch (IOException e) {
                     Log.e(TAG,"NETWORKING ERRROR");
@@ -50,5 +55,10 @@ public class MainActivity extends AppCompatActivity {
         });
         Log.d(TAG,"Main UI is working");
 
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog=new AlertDialogFragment();
+        dialog.show(getFragmentManager(),"Aler Dialog Message");
     }
 }
