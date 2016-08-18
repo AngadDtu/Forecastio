@@ -81,8 +81,10 @@ public class CurrentWeather {
         mTime = time;
     }
 
-    public double getTemperature() {
-        return mTemperature;
+    public int getTemperature() {
+        double temp=Math.round(mTemperature);
+
+        return (int) temp;
     }
 
     public void setTemperature(double temperature) {
@@ -97,8 +99,8 @@ public class CurrentWeather {
         mHumidity = humidity;
     }
 
-    public double getPerciChange() {
-        return mPerciChange;
+    public int getPerciChange() {
+        return (int)Math.round(mPerciChange);
     }
 
     public void setPerciChange(double perciChange) {

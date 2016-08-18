@@ -1,11 +1,15 @@
 package com.example.angad.forecastio.UI;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.angad.forecastio.R;
@@ -16,6 +20,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -26,10 +32,25 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG =MainActivity.class.getSimpleName() ;
 private CurrentWeather mCurrentWeather;
+    private TextView mTimeZoneValue;
+    private TextView mTemperatureValue;
+    private TextView mHumidityValue;
+    private TextView mPrecipValue;
+    private TextView mSummaryLabel;
+    private ImageView mIconImageView;
+    private TextView mTimeValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mTimeZoneValue=(TextView)findViewById(R.id.timeZoneLabel);
+        mTemperatureValue=(TextView)findViewById(R.id.temperatureLabel);
+        mHumidityValue=(TextView)findViewById(R.id.humidityLabel);
+        mPrecipValue=(TextView)findViewById(R.id.percipLevel);
+        mSummaryLabel=(TextView)findViewById(R.id.summaryLabel);
+        mIconImageView=(ImageView)findViewById(R.id.iconLabel);
+        mTimeValue=(TextView)findViewById(R.id.timeLabel);
         String apiKey="a65e6661daf2ae7d51c04026725ebd54";
         double longitude= 37.8267;
         double latitude=-122.423;
@@ -54,6 +75,12 @@ private CurrentWeather mCurrentWeather;
                             String JsonData=response.body().string();
                             Log.v(TAG, JsonData);
                             mCurrentWeather=getCurrentDetails(JsonData);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    onUpdateDetails();
+                                }
+                            });
                         } else {
                             Log.v(TAG, response.body().string());
                             alertUserAboutError();
@@ -71,6 +98,17 @@ private CurrentWeather mCurrentWeather;
         }
         Log.d(TAG,"Main UI is working");
 
+    }
+
+    private void onUpdateDetails() {
+       mTimeZoneValue.setText(mCurrentWeather.getTimeZone());
+        mTemperatureValue.setText(mCurrentWeather.getTemperature()+"");
+        mHumidityValue.setText(mCurrentWeather.getHumidity()+"");
+        mPrecipValue.setText(mCurrentWeather.getPerciChange()+"%");
+        mSummaryLabel.setText(mCurrentWeather.getSummary());
+        Drawable drawable = ContextCompat.getDrawable(this, mCurrentWeather.getIcon());
+        mIconImageView.setImageDrawable(drawable);
+        mTimeValue.setText("At "+mCurrentWeather.getFormattedTime()+" temp will be");
     }
 
     private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {

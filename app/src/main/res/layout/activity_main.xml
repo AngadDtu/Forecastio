@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/temperature"
+        android:text="--"
         android:id="@+id/temperatureLabel"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
@@ -34,7 +34,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/time"
+        android:text="--"
         android:id="@+id/timeLabel"
         android:layout_above="@+id/temperatureLabel"
         android:layout_centerHorizontal="true"
@@ -45,18 +45,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_alignTop="@+id/timeLabel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="59dp"
-        android:layout_marginStart="59dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TimeZone"
+        android:text="---"
         android:id="@+id/timeZoneLabel"
         android:layout_above="@+id/timeLabel"
         android:layout_centerVertical="true"
@@ -102,7 +91,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.88"
+                android:text="--"
                 android:id="@+id/humidityLabel"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
@@ -126,8 +115,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="70%"
-                android:id="@+id/perciLevel"
+                android:text="--"
+                android:id="@+id/percipLevel"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:layout_gravity="center"/>
@@ -138,8 +127,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chances of rain with meatballs"
-        android:id="@+id/textView"
+        android:text="Getting weather data..."
+        android:id="@+id/summaryLabel"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"
