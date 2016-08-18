@@ -1,4 +1,4 @@
-package com.example.angad.forecastio.UI;
+package com.example.angad.forecastio.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

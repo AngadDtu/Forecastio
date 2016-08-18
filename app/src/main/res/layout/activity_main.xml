@@ -136,4 +136,21 @@
         android:layout_marginTop="50dp"
         android:gravity="center"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/refreshLabel"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/refresh"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_alignBottom="@+id/refreshLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/refreshLabel"/>
+
 </RelativeLayout>

@@ -4,14 +4,18 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.angad.forecastio.Dialogs.AlertDialogFragment;
 import com.example.angad.forecastio.R;
 import com.example.angad.forecastio.model.CurrentWeather;
 
@@ -20,8 +24,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -39,7 +41,8 @@ private CurrentWeather mCurrentWeather;
     private TextView mSummaryLabel;
     private ImageView mIconImageView;
     private TextView mTimeValue;
-
+private ImageView mRefreshView;
+    private ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +54,31 @@ private CurrentWeather mCurrentWeather;
         mSummaryLabel=(TextView)findViewById(R.id.summaryLabel);
         mIconImageView=(ImageView)findViewById(R.id.iconLabel);
         mTimeValue=(TextView)findViewById(R.id.timeLabel);
+        mRefreshView=(ImageView)findViewById(R.id.refreshLabel);
+        mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
+        final double longitude= 37.8267;
+        final double latitude=-122.423;
+        mRefreshView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              getForecast(longitude,latitude);
+            }
+        });
+        getForecast(longitude,latitude);
+        Log.d(TAG,"Main UI is working");
+
+    }
+
+    private void getForecast(double longitude,double latitude) {
         String apiKey="a65e6661daf2ae7d51c04026725ebd54";
-        double longitude= 37.8267;
-        double latitude=-122.423;
+
         String foreCast="https://api.forecast.io/forecast/" + apiKey + "/" + longitude + "," + latitude;
+
         if(isNetworkAvailable()) {
+           // getProgressBar();
+            mProgressBar.setVisibility(View.VISIBLE);
+            mRefreshView.setVisibility(View.INVISIBLE);
+
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(foreCast)
@@ -64,13 +87,29 @@ private CurrentWeather mCurrentWeather;
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mRefreshView.setVisibility(View.VISIBLE);
+                            alertUserAboutError();
+                            //getProgressBar();
+                        }
+                    });
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    try {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                           // getProgressBar();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mRefreshView.setVisibility(View.VISIBLE);
 
+                        }
+                    });
+                    try {
                         if (response.isSuccessful()) {
                             String JsonData=response.body().string();
                             Log.v(TAG, JsonData);
@@ -96,9 +135,18 @@ private CurrentWeather mCurrentWeather;
         else{
             Toast.makeText(this, R.string.network_error_toast_message,Toast.LENGTH_LONG).show();
         }
-        Log.d(TAG,"Main UI is working");
-
     }
+
+    /*private void getProgressBar() {
+        if(mProgressBar.getVisibility()==View.VISIBLE) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mRefreshView.setVisibility(View.INVISIBLE);
+        }
+        else{
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mRefreshView.setVisibility(View.VISIBLE);
+        }
+    }*/
 
     private void onUpdateDetails() {
        mTimeZoneValue.setText(mCurrentWeather.getTimeZone());
