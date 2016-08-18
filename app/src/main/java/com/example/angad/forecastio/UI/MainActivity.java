@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +23,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -34,28 +35,20 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG =MainActivity.class.getSimpleName() ;
 private CurrentWeather mCurrentWeather;
-    private TextView mTimeZoneValue;
-    private TextView mTemperatureValue;
-    private TextView mHumidityValue;
-    private TextView mPrecipValue;
-    private TextView mSummaryLabel;
-    private ImageView mIconImageView;
-    private TextView mTimeValue;
-private ImageView mRefreshView;
-    private ProgressBar mProgressBar;
+    @BindView(R.id.timeZoneLabel) TextView mTimeZoneValue;
+    @BindView(R.id.temperatureLabel) TextView mTemperatureValue;
+    @BindView(R.id.humidityLabel) TextView mHumidityValue;
+    @BindView(R.id.percipLevel) TextView mPrecipValue;
+    @BindView(R.id.iconLabel) ImageView mIconImageView;
+    @BindView(R.id.timeLabel) TextView mTimeValue;
+    @BindView(R.id.summaryLabel) TextView mSummaryLabel;
+    @BindView(R.id.refreshLabel) ImageView mRefreshView;
+    @BindView(R.id.progressBar) ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTimeZoneValue=(TextView)findViewById(R.id.timeZoneLabel);
-        mTemperatureValue=(TextView)findViewById(R.id.temperatureLabel);
-        mHumidityValue=(TextView)findViewById(R.id.humidityLabel);
-        mPrecipValue=(TextView)findViewById(R.id.percipLevel);
-        mSummaryLabel=(TextView)findViewById(R.id.summaryLabel);
-        mIconImageView=(ImageView)findViewById(R.id.iconLabel);
-        mTimeValue=(TextView)findViewById(R.id.timeLabel);
-        mRefreshView=(ImageView)findViewById(R.id.refreshLabel);
-        mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
+        ButterKnife.bind(this);
         final double longitude= 37.8267;
         final double latitude=-122.423;
         mRefreshView.setOnClickListener(new View.OnClickListener() {
@@ -75,10 +68,9 @@ private ImageView mRefreshView;
         String foreCast="https://api.forecast.io/forecast/" + apiKey + "/" + longitude + "," + latitude;
 
         if(isNetworkAvailable()) {
-           // getProgressBar();
+              //toggleRefresh();
             mProgressBar.setVisibility(View.VISIBLE);
             mRefreshView.setVisibility(View.INVISIBLE);
-
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(foreCast)
@@ -90,12 +82,12 @@ private ImageView mRefreshView;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //toggleRefresh();
                             mProgressBar.setVisibility(View.INVISIBLE);
                             mRefreshView.setVisibility(View.VISIBLE);
-                            alertUserAboutError();
-                            //getProgressBar();
                         }
                     });
+                    alertUserAboutError();
                 }
 
                 @Override
@@ -103,10 +95,9 @@ private ImageView mRefreshView;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                           // getProgressBar();
+                            //toggleRefresh();
                             mProgressBar.setVisibility(View.INVISIBLE);
                             mRefreshView.setVisibility(View.VISIBLE);
-
                         }
                     });
                     try {
@@ -137,8 +128,8 @@ private ImageView mRefreshView;
         }
     }
 
-    /*private void getProgressBar() {
-        if(mProgressBar.getVisibility()==View.VISIBLE) {
+   /* private void toggleRefresh() {
+        if(mProgressBar.getVisibility()==View.INVISIBLE) {
             mProgressBar.setVisibility(View.VISIBLE);
             mRefreshView.setVisibility(View.INVISIBLE);
         }
