@@ -125,6 +125,8 @@ private CurrentWeather mCurrentWeather;
         }
         else{
             Toast.makeText(this, R.string.network_error_toast_message,Toast.LENGTH_LONG).show();
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mRefreshView.setVisibility(View.VISIBLE);
         }
     }
 

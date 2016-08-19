@@ -4,7 +4,7 @@
     <string name="alertDialog_message">Please try again!</string>
     <string name="ok_button_text">OK</string>
     <string name="network_error_toast_message">Network is Unavailable</string>
-    <string name="temperature">100</string>
+    <string name="temperature">F</string>
     <string name="time">At 5:30 PM will be</string>
-    <string name="TimeZone">Alcataraz Islands, CA</string>
+    <string name="TimeZone">timeZone</string>
 </resources>
