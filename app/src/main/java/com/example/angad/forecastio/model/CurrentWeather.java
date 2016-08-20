@@ -11,6 +11,17 @@ public class CurrentWeather {
     private  String mTimeZone;
     private long mTime;
     private double mTemperature;
+    private double mTempInCelcius;
+
+    public int getTempInCelcius() {
+         mTempInCelcius=(getTemperature() - 32)/1.8;
+        return (int)Math.round(mTempInCelcius);
+    }
+
+    public void setTempInCelcius(double tempInCelcius) {
+        mTempInCelcius = tempInCelcius;
+    }
+
     private double mHumidity;
     private double mPerciChange;
     private  String mSummary;
@@ -81,10 +92,8 @@ public class CurrentWeather {
         mTime = time;
     }
 
-    public int getTemperature() {
-        double temp=Math.round(mTemperature);
-
-        return (int) temp;
+    public double getTemperature() {
+        return mTemperature;
     }
 
     public void setTemperature(double temperature) {
