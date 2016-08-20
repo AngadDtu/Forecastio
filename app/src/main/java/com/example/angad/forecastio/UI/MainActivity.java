@@ -2,6 +2,7 @@ package com.example.angad.forecastio.UI;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.content.ContextCompat;
@@ -31,10 +32,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private static final String TAG =MainActivity.class.getSimpleName() ;
-private CurrentWeather mCurrentWeather;
+    private CurrentWeather mCurrentWeather;
+    private double mLongitude=77.1025;
+    private double mLatitude= 28.7041;
     @BindView(R.id.timeZoneLabel) TextView mTimeZoneValue;
     @BindView(R.id.temperatureLabel) TextView mTemperatureValue;
     @BindView(R.id.humidityLabel) TextView mHumidityValue;
@@ -49,23 +52,23 @@ private CurrentWeather mCurrentWeather;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        final double longitude= 37.8267;
-        final double latitude=-122.423;
         mRefreshView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              getForecast(longitude,latitude);
+              getForecast(mLatitude,mLongitude);
             }
         });
-        getForecast(longitude,latitude);
+        getForecast(mLatitude,mLongitude);
         Log.d(TAG,"Main UI is working");
-
     }
 
-    private void getForecast(double longitude,double latitude) {
+
+
+
+    private void getForecast(double latitude,double longitude) {
         String apiKey="a65e6661daf2ae7d51c04026725ebd54";
 
-        String foreCast="https://api.forecast.io/forecast/" + apiKey + "/" + longitude + "," + latitude;
+        String foreCast="https://api.forecast.io/forecast/" + apiKey + "/" + latitude + "," + longitude;
 
         if(isNetworkAvailable()) {
               //toggleRefresh();
@@ -87,6 +90,7 @@ private CurrentWeather mCurrentWeather;
                             mRefreshView.setVisibility(View.VISIBLE);
                         }
                     });
+                    Log.v(TAG,"Network connection Failed");
                     alertUserAboutError();
                 }
 
@@ -132,6 +136,8 @@ private CurrentWeather mCurrentWeather;
         }
         else{
             Toast.makeText(this, R.string.network_error_toast_message,Toast.LENGTH_LONG).show();
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mRefreshView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -148,7 +154,7 @@ private CurrentWeather mCurrentWeather;
 
     private void onUpdateDetails() {
        mTimeZoneValue.setText(mCurrentWeather.getTimeZone());
-        mTemperatureValue.setText(mCurrentWeather.getTemperature()+"");
+        mTemperatureValue.setText(mCurrentWeather.getTempInCelcius()+"");
         mHumidityValue.setText(mCurrentWeather.getHumidity()+"");
         mPrecipValue.setText(mCurrentWeather.getPerciChange()+"%");
         mSummaryLabel.setText(mCurrentWeather.getSummary());
@@ -188,4 +194,6 @@ private CurrentWeather mCurrentWeather;
         AlertDialogFragment dialog=new AlertDialogFragment();
         dialog.show(getFragmentManager(),"Alert Dialog Message");
     }
+
+
 }
