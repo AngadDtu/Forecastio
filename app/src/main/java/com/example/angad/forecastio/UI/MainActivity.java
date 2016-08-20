@@ -101,8 +101,8 @@ private CurrentWeather mCurrentWeather;
                         }
                     });
                     try {
+                        String JsonData=response.body().string();
                         if (response.isSuccessful()) {
-                            String JsonData=response.body().string();
                             Log.v(TAG, JsonData);
                             mCurrentWeather=getCurrentDetails(JsonData);
                             runOnUiThread(new Runnable() {
@@ -112,8 +112,15 @@ private CurrentWeather mCurrentWeather;
                                 }
                             });
                         } else {
-                            Log.v(TAG, response.body().string());
+                            Log.v(TAG, JsonData);
                             alertUserAboutError();
+                            /* runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this,"Wrong location input",Toast.LENGTH_LONG).show();
+                                }
+                            });*/
+
                         }
                     } catch (IOException e) {
                         Log.e(TAG, "NETWORKING ERRROR",e);
