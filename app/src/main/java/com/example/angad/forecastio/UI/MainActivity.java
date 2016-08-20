@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity  {
 
     private static final String TAG =MainActivity.class.getSimpleName() ;
     private CurrentWeather mCurrentWeather;
-    private double mLongitude=9999;   //77.1025;
+    private double mLongitude=77.1025;
     private double mLatitude= 28.7041;
     @BindView(R.id.timeZoneLabel) TextView mTimeZoneValue;
     @BindView(R.id.temperatureLabel) TextView mTemperatureValue;
